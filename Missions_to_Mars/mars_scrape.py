@@ -9,8 +9,6 @@ def open_browser():
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     return Browser('chrome', **executable_path, headless=False)
 
-
-# In[4]:
 def scrape():
 
     browser = open_browser()
@@ -23,25 +21,20 @@ def scrape():
     html = browser.html
     soup = bs(html, 'html.parser')
     browser.is_element_present_by_css("ul.item_list li.slide")
-
-    # In[5]:
-
+    
     items_list = soup.find_all('div', class_='list_text')
     item = soup.find('div', class_='list_text')
     title = item.find('div', class_='content_title').text
 
-    # In[7]:
+   
 
     date = item.find('div', class_='list_date').text
     title_p = item.find('div', class_='article_teaser_body').text
 
-    # In[8]:
+  
 
     # JPL Mars Images - Scrapping Featured Image
 
-    # In[9]:
-
-    # In[10]:
 
     # JPL Mars Images - Scrapping Featured Image
     image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -52,11 +45,11 @@ def scrape():
     image_html = browser.html
     image_soup = bs(image_html, 'lxml')
 
-    # In[11]:
+ 
 
     # print(image_soup.prettify)
 
-    # In[12]:
+    
 
     browser.links.find_by_partial_text('FULL IMAGE')
     browser.links.find_by_partial_text('more info')
@@ -66,15 +59,15 @@ def scrape():
     image_url_v = image_list.find('a')
     image_url = image_url_v['data-fancybox-href']
 
-    # In[13]:
+    
 
     featured_image_url = f'https://www.jpl.nasa.gov{image_url}'
 
-    # In[14]:
+  
 
     # Mars Weather
 
-    # In[15]:
+    
 
     twitter_url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(twitter_url)
@@ -84,7 +77,7 @@ def scrape():
     twitter_html = browser.html
     twitter_soup = bs(twitter_html, 'lxml')
 
-    # In[16]:
+   
 
     weather_list_items = twitter_soup.find_all('div',
                                                class_='css-901oao r-hkyrab r-1qd0xha r-a023e6 r-16dba41 r-ad9z0x r-bcqeeo r-bnwqim r-qvutc0')[
@@ -92,25 +85,25 @@ def scrape():
     mars_weather = weather_list_items.find('span',
                                            class_='css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0').text
 
-    # In[17]:
+    
 
     # Mars Facts
 
-    # In[18]:
+   
 
     mars_facts_url = 'https://space-facts.com/mars/'
 
-    # In[19]:
+    
 
     mars_facts_df = pd.read_html(mars_facts_url)[0]
     mars_facts_df.columns = ['Measurement', 'Value']
     mars_facts_df.set_index('Measurement', inplace=True)
     mars_facts = mars_facts_df.to_html()
-    # In[20]:
+   
 
     # Mars Hemisphere
 
-    # In[21]:
+   
 
     hemisphere_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(hemisphere_url)
@@ -120,7 +113,7 @@ def scrape():
     hemisphere_html = browser.html
     hemisphere_soup = bs(hemisphere_html, 'lxml')
 
-    # In[22]:
+   
 
     hemi_image_urls = []
     hemi_list = hemisphere_soup.find_all('div', class_='item')
